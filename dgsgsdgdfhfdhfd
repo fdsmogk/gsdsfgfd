@@ -1,0 +1,210 @@
+local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/0GR8cBuv"))()
+Aiming.TeamCheck(false)
+
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local CurrentCamera = Workspace.CurrentCamera
+
+local DaHoodSettings = {
+    SilentAim = true,
+    AimLock = false,
+    Prediction = 0.102421,
+    AimLockKeybind = Enum.KeyCode.E
+}
+getgenv().DaHoodSettings = DaHoodSettings
+
+function Aiming.Check()
+    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+        return false
+    end
+
+    local Character = Aiming.Character(Aiming.Selected)
+    local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+
+    if (KOd or Grabbed) then
+        return false
+    end
+
+    return true
+end
+
+local __index
+__index = hookmetamethod(game, "__index", function(t, k)
+    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+        local SelectedPart = Aiming.SelectedPart
+
+        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+            return (k == "Hit" and Hit or SelectedPart)
+        end
+    end
+
+    return __index(t, k)
+end)
+
+-- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER --
+-- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER --
+-- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER --
+-- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER --
+-- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER -- RESOLVER --
+
+local RunService = game:GetService("RunService")
+
+local function zeroOutYVelocity(hrp)
+    hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+    hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+end
+
+local function onPlayerAdded(player)
+    player.CharacterAdded:Connect(function(character)
+        local hrp = character:WaitForChild("HumanoidRootPart")
+        zeroOutYVelocity(hrp)
+    end)
+end
+
+local function onPlayerRemoving(player)
+    player.CharacterAdded:Disconnect()
+end
+
+game.Players.PlayerAdded:Connect(onPlayerAdded)
+game.Players.PlayerRemoving:Connect(onPlayerRemoving)
+
+RunService.Heartbeat:Connect(function()
+    pcall(function()
+        for i, player in pairs(game.Players:GetChildren()) do
+            if player.Name ~= game.Players.LocalPlayer.Name then
+                local hrp = player.Character.HumanoidRootPart
+                zeroOutYVelocity(hrp)
+            end
+        end
+    end)
+end)
+
+-- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT --
+-- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT --
+-- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT --
+-- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT --
+-- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT -- TRIGGERBOT --
+
+local HoldClick = true
+local Hotkey = 't' -- Leave blank for always on
+local HotkeyToggle = true -- True if you want it to toggle on and off with a click
+                
+local Players = game:GetService('Players')
+local RunService = game:GetService('RunService')
+                
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+                
+local Toggle = (Hotkey ~= '')
+local CurrentlyPressed = false
+                
+Mouse.KeyDown:Connect(function(key)
+    if HotkeyToggle == true and key == Hotkey then
+        Toggle = not Toggle
+    elseif 
+        key == Hotkey then
+        Toggle = true
+    end
+end)
+                
+Mouse.KeyUp:Connect(function(key)
+    if HotkeyToggle ~= true and key == Hotkey then
+        Toggle = false
+    end
+ end)
+                
+RunService.RenderStepped:Connect(function()
+    if Toggle then
+        if Mouse.Target then
+            if Mouse.Target.Parent:FindFirstChild('Humanoid') then
+                if HoldClick then
+                    if not CurrentlyPressed then
+                        CurrentlyPressed = true
+                        mouse1press()
+                    end
+                else
+                    mouse1click()
+                end
+            else
+                if HoldClick then
+                    CurrentlyPressed = false
+                    mouse1release()
+                end
+            end
+        end
+    end
+end)
+
+-- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER --
+-- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER --
+-- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER --
+-- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER --
+-- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER -- MEMORY SPOOFER --
+
+local Settings = {
+    minmemory = 500,
+    maxmemory = 800,
+    
+}
+
+for __, v in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
+    if v.Name == "PS_Button" and v.StatsMiniTextPanelClass.TitleLabel.Text == "Mem" then
+        Memory = v.StatsMiniTextPanelClass.ValueLabel
+    end
+end
+
+Memory:GetPropertyChangedSignal("Text"):Connect(function()
+    local Random = math.random(Settings.range1,Settings.range2)
+    Random = Random * 1.23 
+    Memory.Text = "".. Random .." MB"
+end)
+
+-- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER --
+-- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER --
+-- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER --
+-- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER --
+-- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER -- PING SPOOFER --
+
+local PerformanceStats = game:GetService("CoreGui"):WaitForChild("RobloxGui"):WaitForChild("PerformanceStats");
+local PingLabel;
+for I, Child in next, PerformanceStats:GetChildren() do
+    if Child.StatsMiniTextPanelClass.TitleLabel.Text == "Ping" then
+        PingLabel = Child.StatsMiniTextPanelClass.ValueLabel;
+        break;
+    end;
+end;
+
+local pingtxt = "67.14 ms";
+PingLabel:GetPropertyChangedSignal("Text"):Connect(function()
+    PingLabel.Text = pingtxt;
+end);
+PingLabel.Text = text;
+
+-- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK --
+-- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK --
+-- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK --
+-- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK --
+-- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK -- CAMLOCK --
+
+getgenv().RecurringPoint = "UpperTorso"
+getgenv().Hitbox = "UpperTorso"
+getgenv().Keybind = "e"
+getgenv().AimbotStrengthAmount = 0.0335
+getgenv().PredictionAmount = 10
+getgenv().Radius = 25
+getgenv().UsePrediction = true
+getgenv().AimbotStrength = true
+getgenv().FirstPerson = true
+getgenv().ThirdPerson = true
+getgenv().TeamCheck = false
+getgenv().Enabled = true
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/tenaaki/GenericAimbot/main/v1.0.0"))()
